@@ -224,6 +224,7 @@ class PathMappingRepository extends AbstractPathMappingRepository implements Edi
 
             foreach ($filesystemBasePaths as $filesystemBasePath) {
                 $filesystemPath = substr_replace($path, rtrim($filesystemBasePath, '/').'/', 0, strlen($basePath));
+                $filesystemPath = str_replace('//', '/', $filesystemPath);
 
                 if (file_exists($filesystemPath)) {
                     $filesystemPaths[] = $filesystemPath;
