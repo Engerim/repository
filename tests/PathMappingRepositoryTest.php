@@ -283,6 +283,19 @@ class PathMappingRepositoryTest extends AbstractEditableRepositoryTest
         $this->assertEquals($clone, $this->repo->get('/webmozart/file'));
     }
 
+    public function testResolveChildrenWithCorrectFileSystemPaths()
+    {
+        $root = $this->buildStructure($this->createDirectory('', array(
+            $this->createDirectory('/sub2', array(
+                $this->createFile('/file2', 'original 2'),
+            )),
+        )));
+
+        $this->writeRepo->add('/webmozart', new DirectoryResource($root->getFilesystemPath()));
+
+        $this->assertCount(1, $this->writeRepo->find('/webmozart/sub2/*')->toArray());
+    }
+
     /**
      * @expectedException \Puli\Repository\Api\UnsupportedLanguageException
      * @expectedExceptionMessage foobar
